@@ -1,0 +1,3 @@
+Hibernate: create table ec2instance_data (instance_id varchar(255) not null, instance_meta_data longtext, primary key (instance_id)) engine=InnoDB
+Hibernate: create table jobs (id integer not null auto_increment, created_on datetime(6), message varchar(255), modified_on datetime(6), region varchar(255), service varchar(255), status integer, primary key (id)) engine=InnoDB
+Hibernate: create table s3bucket (name varchar(255) not null, obj_count bigint, object_names varchar(255), primary key (name)) engine=InnoDB
