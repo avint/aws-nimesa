@@ -1,3 +1,25 @@
-Hibernate: create table ec2instance_data (instance_id varchar(255) not null, instance_meta_data longtext, primary key (instance_id)) engine=InnoDB
-Hibernate: create table jobs (id integer not null auto_increment, created_on datetime(6), message varchar(255), modified_on datetime(6), region varchar(255), service varchar(255), status integer, primary key (id)) engine=InnoDB
-Hibernate: create table s3bucket (name varchar(255) not null, obj_count bigint, object_names varchar(255), primary key (name)) engine=InnoDB
+CREATE DATABASE `identity` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+CREATE TABLE `ec2instance_data` (
+  `instance_id` varchar(255) NOT NULL,
+  `instance_meta_data` longtext,
+  PRIMARY KEY (`instance_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `jobs` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `created_on` datetime(6) DEFAULT NULL,
+  `message` varchar(255) DEFAULT NULL,
+  `modified_on` datetime(6) DEFAULT NULL,
+  `region` varchar(255) DEFAULT NULL,
+  `service` varchar(255) DEFAULT NULL,
+  `status` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `s3bucket` (
+  `name` varchar(255) NOT NULL,
+  `obj_count` bigint DEFAULT NULL,
+  `object_names` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

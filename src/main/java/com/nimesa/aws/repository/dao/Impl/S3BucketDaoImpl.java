@@ -5,6 +5,7 @@ import com.nimesa.aws.repository.dao.S3BucketDao;
 import com.nimesa.aws.repository.repositoryInterface.S3BucketDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class S3BucketDaoImpl implements S3BucketDao {
         return null;
     }
 
-
+    @Transactional
     public S3BucketData updateBucket(S3BucketData s3BucketData){
         if(s3BucketData.getName() == null){
             return null;
@@ -37,6 +38,7 @@ public class S3BucketDaoImpl implements S3BucketDao {
     public List<S3BucketData> findAllS3BucketData(){
         return s3BucketDataRepository.findAll();
     }
+    @Transactional
     public S3BucketData createS3BucketData(S3BucketData data){
         Optional<S3BucketData> existingEntry = s3BucketDataRepository.findById(data.getName());
         if( !existingEntry.isPresent()){
