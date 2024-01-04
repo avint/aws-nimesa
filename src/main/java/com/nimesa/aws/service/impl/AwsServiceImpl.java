@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.nimesa.aws.config.ThreadPoolConfig;
 import com.nimesa.aws.repository.dao.JobDao;
 import com.nimesa.aws.service.AwsService;
 import com.nimesa.aws.service.Ec2Service;
@@ -16,6 +17,7 @@ import com.nimesa.aws.entity.S3BucketData;
 import com.nimesa.aws.enums.Status;
 import com.nimesa.aws.response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.ec2.model.Instance;
@@ -24,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 @Service
 public class AwsServiceImpl implements AwsService {
@@ -31,9 +34,11 @@ public class AwsServiceImpl implements AwsService {
     private S3Service s3Service;
     private TransformationUtil transformationUtil;
 
+    @Qualifier("AwsThreadPool")
+    private  Executor AwsThreadPool;
     private JobDao jobDao;
     @Autowired
-    AwsServiceImpl(Ec2Service ec2Service, S3Service s3Service, JobDao jobDao, TransformationUtil transformationUtil){
+    AwsServiceImpl(Ec2Service ec2Service, S3Service s3Service, JobDao jobDao, TransformationUtil transformationUtill){
         this.ec2Service = ec2Service;
         this.s3Service = s3Service;
         this.jobDao = jobDao;
@@ -82,7 +87,7 @@ public class AwsServiceImpl implements AwsService {
         return s3Service.findS3BucketDataByName(bucketName);
     }
 
-    @Async
+    @Async("AwsThreadPool")
     public void findAllFilesForBucketAndUpdateOnDB(Job job, String bucketName){
         try{
             job.setStatus(Status.SUCCESS);
@@ -98,7 +103,7 @@ public class AwsServiceImpl implements AwsService {
         jobDao.updateJob(job);
     }
 
-    @Async
+    @Async("AwsThreadPool")
     public void discoverEC2(Job job){
         try{
             List<Instance> instances =  ec2Service.getEc2Instances();
