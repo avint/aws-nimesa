@@ -49,7 +49,11 @@ public class AwsServiceImpl implements AwsService {
             if(pattern == null){
                 return transformationUtil.createResponse(null ,"FAILURE", "1102", "Search pattern not provided");
             }
-            List<String> fileNames = s3Service.findFilesWhichMatchPattern(bucketName, pattern);
+            S3BucketData bucketData = s3Service.findS3BucketDataByName(bucketName);
+            if(bucketData == null){
+                return transformationUtil.createResponse(null ,"FAILURE", "901", "Bucket not found on Database");
+            }
+            List<String> fileNames = s3Service.findFilesWhichMatchPattern(bucketData, pattern);
             return transformationUtil.createResponse(fileNames,"SUCCESS", "", "Search Success for given Pattern");
         }catch (Exception e){
             return transformationUtil.createResponse(null ,"FAILURE", "900", "Error while search files: "+e.getMessage());

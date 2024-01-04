@@ -24,8 +24,7 @@ public class S3ServiceImpl implements S3Service {
         this.s3BucketDao = s3BucketDao;
     }
 
-    public List<String> findFilesWhichMatchPattern(String bucketName, String pattern){
-        S3BucketData bucketData = findS3BucketDataByName(bucketName);
+    public List<String> findFilesWhichMatchPattern(S3BucketData bucketData, String pattern){
         if(bucketData != null){
             return findStringsContainingSubstring(bucketData.getObjectNames(), pattern);
         }

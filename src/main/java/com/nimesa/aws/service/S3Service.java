@@ -7,7 +7,7 @@ import com.nimesa.aws.response.Response;
 import java.util.List;
 
 public interface S3Service {
-    List<String> findFilesWhichMatchPattern(String bucketName, String pattern);
+    List<String> findFilesWhichMatchPattern(S3BucketData bucketName, String pattern);
     S3BucketData createS3BucketData(S3BucketData s3BucketData);
     void findAllFilesAndUpdateOnDB(String bucketName);
     List<String> getAllFileNames(String bucketName);
