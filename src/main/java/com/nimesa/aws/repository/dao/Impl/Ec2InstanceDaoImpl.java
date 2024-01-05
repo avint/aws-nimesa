@@ -26,10 +26,6 @@ public class Ec2InstanceDaoImpl implements Ec2InstanceDao{
     @Transactional
     public Ec2InstanceData createEc3Instance(Ec2InstanceData data){
         Optional<Ec2InstanceData> existingData = ec2InstanceDataRepository.findById(data.getInstanceId());
-        if(!existingData.isPresent()){
-            return ec2InstanceDataRepository.save(data);
-        }
-        return existingData.get();
-
+        return existingData.orElseGet(() -> ec2InstanceDataRepository.save(data));
     }
 }

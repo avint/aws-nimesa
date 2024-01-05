@@ -38,7 +38,7 @@ public class AwsServiceImpl implements AwsService {
     private  Executor AwsThreadPool;
     private JobDao jobDao;
     @Autowired
-    AwsServiceImpl(Ec2Service ec2Service, S3Service s3Service, JobDao jobDao, TransformationUtil transformationUtill){
+    AwsServiceImpl(Ec2Service ec2Service, S3Service s3Service, JobDao jobDao, TransformationUtil transformationUtil){
         this.ec2Service = ec2Service;
         this.s3Service = s3Service;
         this.jobDao = jobDao;
